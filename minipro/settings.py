@@ -26,15 +26,8 @@ SECRET_KEY = 'django-insecure-@y+)^pnqv)*gq$$l5pa2u(ci1m&@%y&z&uc9+d58*bc!ehtd(=
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+ALLOWED_HOSTS = ['your-app-name.onrender.com', 'localhost', '127.0.0.1']
 
-ALLOWED_HOSTS = [
-    '4ad9-49-248-202-174.ngrok-free.app',
-    '0.0.0.0',               # Allow requests from 0.0.0.0
-    '192.168.249.101',       # Your local IP address
-    'localhost',             # Allow requests from localhost
-    '127.0.0.1',             # Allow requests from the loopback address
-    'https://django-project-z8gp.onrender.com',
-    ]
 
 
 # Application definition
