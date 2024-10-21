@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     '192.168.249.101',       # Your local IP address
     'localhost',             # Allow requests from localhost
     '127.0.0.1',             # Allow requests from the loopback address
+    'https://django-project-z8gp.onrender.com',
     ]
 
 
