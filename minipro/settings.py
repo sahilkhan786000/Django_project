@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-@y+)^pnqv)*gq$$l5pa2u(ci1m&@%y&z&uc9+d58*bc!ehtd(=
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ['your-app-name.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['django-project-z8gp.onrender.com', 'localhost', '127.0.0.1']
 
 
 
@@ -175,6 +175,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://192.168.249.101:8000",  # Your actual IP address
+    "https://django-project-z8gp.onrender.com",
     "http://localhost:3000",
 ]
 
