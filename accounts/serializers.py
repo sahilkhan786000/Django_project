@@ -38,8 +38,9 @@
 #             raise serializers.ValidationError({"username": "This username is already taken."})
 
 
+# serializers.py
 from rest_framework import serializers
-from mongoengine.errors import NotUniqueError, DoesNotExist
+from mongoengine.errors import NotUniqueError
 from .models import UserDetails
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -59,17 +60,22 @@ class SignupSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         try:
-            # Hash the password before saving
             hashed_password = make_password(validated_data['password'])
             user = UserDetails(
                 username=validated_data['username'],
                 email=validated_data['email'],
-                password=hashed_password  # Store the hashed password
+                password=hashed_password
             )
             user.save()
             return user
         except NotUniqueError:
             raise serializers.ValidationError({"username": "This username or email is already taken."})
+
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserDetails
+        fields = ['id', 'username', 'email', 'created_at']  # Include created_at
 
 
 class LoginSerializer(serializers.Serializer):
