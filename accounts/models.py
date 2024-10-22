@@ -7,7 +7,7 @@ class UserDetails(Document):
     username = StringField(required=True, unique=True)
     email = EmailField(required=True, unique=True)  # Use EmailField for email
     password = StringField(required=True)
-    created_at = DateTimeField(default=datetime.utcnow)
+    # created_at = DateTimeField(default=datetime.utcnow)
 
     def check_password(self, raw_password):
         return check_password(raw_password, self.password)
