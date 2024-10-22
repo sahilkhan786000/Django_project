@@ -42,7 +42,6 @@ class UserDetailView(APIView):
             users = UserDetails.objects.all()  # Fetch all user details
             users_data = [
                 {
-                    'id': user.id,
                     'username': user.username,
                     'email': user.email,
                     # Include any other fields you want to return
