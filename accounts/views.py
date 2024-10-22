@@ -42,5 +42,4 @@ class UserDetailView(APIView):
 
     def get(self, request):
         users = UserDetails.objects.all()  # Fetch all user details
-        serializer = UserDetailsSerializer(users, many=True)  # Serialize the data
-        return Response(serializer.data)  # Return the serialized data
+        return Response(users, status=status.HTTP_200_OK)  # Return the serialized data
