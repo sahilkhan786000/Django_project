@@ -72,15 +72,6 @@ class SignupSerializer(serializers.Serializer):
             raise serializers.ValidationError({"username": "This username or email is already taken."})
 
 
-class UserDetailsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserDetails
-        fields = '__all__'  # Include all fields in the UserDetails model
-
-        # Alternatively, specify individual fields:
-        # fields = ['id', 'username', 'email', 'created_at', 'profile_picture', 'registration_time', 'registration_date', ...]
-
-
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True, write_only=True)
