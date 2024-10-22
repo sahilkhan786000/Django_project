@@ -37,9 +37,18 @@ class LoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserDetailView(APIView):
-    # Remove or comment out the permission_classes line
-    # permission_classes = [IsAuthenticated]
-
     def get(self, request):
-        users = UserDetails.objects.all()  # Fetch all user details
-        return Response(users, status=status.HTTP_200_OK)  # Return the serialized data
+        try:
+            users = UserDetails.objects.all()  # Fetch all user details
+            users_data = [
+                {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email,
+                    # Include any other fields you want to return
+                }
+                for user in users
+            ]
+            return Response(users_data, status=status.HTTP_200_OK)  # Return the data as JSON
+        except Exception as e:
+            return Response({"error": "An error occurred: " + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
