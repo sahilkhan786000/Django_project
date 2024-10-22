@@ -35,16 +35,11 @@ class LoginView(APIView):
             return Response(serializer.validated_data, status=status.HTTP_200_OK)  # Return the tokens here
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-logger = logging.getLogger(__name__)
-
 class UserDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    # Remove or comment out the permission_classes line
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        logger.info(f"User: {request.user}")  # Log the user associated with the request
-        if request.user.is_authenticated:
-            serializer = UserDetailsSerializer(request.user)
-            return Response(serializer.data)
-        else:
-            logger.error("User is not authenticated.")
-            return Response({"detail": "Authentication credentials were not provided."}, status=401)
+        users = UserDetails.objects.all()  # Fetch all user details
+        serializer = UserDetailsSerializer(users, many=True)  # Serialize the data
+        return Response(serializer.data)  # Return the serialized data
