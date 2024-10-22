@@ -75,7 +75,10 @@ class SignupSerializer(serializers.Serializer):
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDetails
-        fields = ['id', 'username', 'email']  # Include created_at
+        fields = '__all__'  # Include all fields in the UserDetails model
+
+        # Alternatively, specify individual fields:
+        # fields = ['id', 'username', 'email', 'created_at', 'profile_picture', 'registration_time', 'registration_date', ...]
 
 
 class LoginSerializer(serializers.Serializer):
