@@ -75,7 +75,7 @@ class SignupSerializer(serializers.Serializer):
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDetails
-        fields = ['id', 'username', 'email', 'created_at']  # Include created_at
+        fields = ['id', 'username', 'email']  # Include created_at
 
 
 class LoginSerializer(serializers.Serializer):
