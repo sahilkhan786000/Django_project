@@ -18,6 +18,7 @@ from rest_framework import status
 from .serializers import SignupSerializer, LoginSerializer
 from rest_framework.permissions import IsAuthenticated
 import logging
+from .models import UserDetails
 
 class SignupView(APIView):
     def post(self, request):
