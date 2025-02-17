@@ -1,0 +1,201 @@
+var CourseForm (function () { 
+var SaveMode = { 
+Save: 1, 
+2, 
+SaveAndClose: 
+59, 
+SaveAndNew: 
+Autosave: 70 
+}; 
+//Variable that shows if validation was successfully passed or not 
+var isValidationNeeded = true; 
+function OnSave (executionContext) { 
+//so if there are several save handlers and one of previous already called preventDefault 
+//there is no need to do any validations anymore 
+if (executionContext.getEventArgs().isDefaultPrevented()) { 
+return; 
+}
+
+var saveMode executionContext.getEventArgs().getSaveMode(); 
+//if savemode is not one of listed just quit the execution and let the record to be saved 
+if (saveMode !== SaveMode. Save && 
+saveMode !== SaveMode. SaveAndClose && 
+saveMode !== SaveMode. SaveAndNew && 
+saveMode !== SaveMode. Autosave) { 
+return; 
+} 
+//so if validation was successfully passed flag is reset 
+//and code just leaves the form alone and allows changes to be saved 
+if (lisValidationNeeded) { 
+isValidationNeeded true; 
+return; 
+} 
+//getting of the form context from execution context object 
+var formContext executionContext.getFormContext(); 
+var student formContext.getAttribute("soft_student").getValue()[0].id; 
+var course formContext.getAttribute("soft_course").getValue()[0].id; 
+var coursestartdate formContext.getAttribute("soft_coursestartdate").getValue();
+
+if (student == || course == || coursestartdate == null) { 
+return; 
+} 
+//preventing of the save operation before async operation is started 
+executionContext.getEventArgs().preventDefault(); 
+var formatteddate coursestartdate.getFullYear().toString() + "-" (coursestartdate.getMonth() + 1).toString() + "-" + coursestar 
+var fetchXML "?fetchXml=<fetch mapping='logical'><entity name='soft_studentregisteredcourses'> <attribute name='soft_name' /><orde 
+Xrm.WebApi.retrieve MultipleRecords("soft_studentregisteredcourses", fetchXML).then( 
+function success (results) { 
+//so if there are other records with the same student and course with course start date 
+if (results.entities.length !== 0) { 
+//this message is shown to user only when user caused save, autosave is just blocked 
+if (saveMode !== SaveMode.Autosave) { 
+var recordURL GetEntityRecordUrl(executionContext, false, true, results.entities[0].soft_studentregisteredcourses 
+var entityName executionContext.getFormContext().data.entity.getEntityName(); 
+var entityId= results.entities[0].soft_studentregisteredcourseid;
+
+//custom parameter that you need in the modal dialog 
+var dialogParameters = { 
+pageType: "webresource",//required 
+webresourceName: "soft_rewardvalidatehtml.html",//Html Webresource that will be 
+data: recordURL //optional 
+}; 
+var navigationOptions = { 
+target: 2,//use 1 if you want to open page inline or 2 to open it as dialog 
+width: 
+400, 
+height: 
+300, 
+position: 1,//1 to locate dialog in center and 2 to locate it on the side, 
+title: "Validation Error"
+
+};
+
+
+
+Xrm.Navigation.navigateTo(dialogParameters, navigationOptions).then( 
+function (returnValue) { 
+//returnValue is blank when "Cancel" button is clicked 
+if (!returnValue) { 
+return; 
+} 
+console.log(returnValue) 
+//Add your processing logic here 
+}, 
+function (e) { 
+//put your error handler here 
+}); 
+} 
+}
+
+
+
+
+
+else {
+//otherwise validation flag is set to "Passed" 
+isValidationNeeded false; 
+//and save event is called again 
+if(saveMode === SaveMode.Save || 
+saveMode === SaveMode. Autosave) { 
+formContext.data.entity.save(); 
+} 
+else if (saveMode === SaveMode. SaveAndClose) { 
+formsontext.data.entity.save("saveandclose"); 
+} 
+else { 
+} 
+formContext.data.entity.save("saveandnew"); 
+} 
+}, 
+function (error) { 
+//if something went wrong error message is shown to user 
+Xrm.Navigation.openAlertDialog({ text: error.message }); 
+} 
+); 
+}
+
+
+function GetEntityRecordUrl(executionContext, forceClassic false, newwindow= true, recordId) { 
+var strUIType = 'forceUCI=1'; 
+if (forceClassic == true || forceClassic == 1) 
+strUIType 'forceClassic=1'; 
+if (newwindow == 0) 
+newwindow= false; 
+var entityName executionContext.getFormContext().data.entity.getEntityName(); 
+var entityId = recordId; 
+var entityRecordUrl= executionContext.getContext().getClientUrl() + '/main.aspx?' + strUIType; 
+entityRecordUrl += '&newwindow=' + newWindow; 
+entityRecordUr1 += '&pagetype=entityrecord&etn=' + entityName + '&id=' + entityId; 
+return entityRecordUrl; 
+} 
+return { 
+}; 
+OnSave: OnSave 
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html><head> 
+<meta charset="utf-8"> 
+<title>Errar</title> 
+<script type="text/javascript" src="../ClientGlobalContext.js.aspx"></script> 
+clink rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.8/jquery.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+<style type="text/css"> 
+.footer { 
+position: fixed; 
+bottom: 0; 
+right: 0; 
+padding-bottom: 10px; 
+padding-right: 10px; 
+footerButton { 
+width: 150px; 
+} 
+</style> 
+<script type="text/javascript"> 
+function onPageLoad() { 
+debugger; 
+var urlParams getUrlParameters(); 
+document.getElementById("errorffessage").innerHTML="You cannot add same course for the student as already the student registered 
+function getUrlParameters() 
+var queryString location.search.substring(1); 
+var paramsvalue encodeURI(queryString).split("=")[1]; 
+return decodeURIComponent(decodeURIComponent(paramsvalue))1 
+</script> 
+<meta></head> 
+<body onload="onPageLoad();" onfocusout="parent.setëmailRange();" style="overflow-wrap: break-word;"> 
+<div id="errortlessage" style="font-family: Arial;padding: 20px" class="alert alert-danger">
+
+<div id="errortlessage" style="font-family: Arial; padding: 20px" class="alert alert-danger"> 
+</div> 
+<div style="width:95%; text-align:right"> 
+<button class="btn btn-primary" onclick="javascript:window.close("","_parent", "");">OK</button> 
+</div> 
+</body></html>
